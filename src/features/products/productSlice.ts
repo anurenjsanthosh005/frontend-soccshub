@@ -22,29 +22,34 @@ type ProductData = {
 };
 
 export interface ProductState {
-  productEdit : boolean
-  editingProduct: ProductData | null; 
+  productEdit: boolean
+  editingProduct: ProductData | null;
+  productCardLocation: boolean
 }
 
 const initialState: ProductState = {
-    productEdit: false,
-    editingProduct : null
+  productEdit: false,
+  editingProduct: null,
+  productCardLocation: true
 }
 
 export const productSlice = createSlice({
   name: 'productSlice',
   initialState,
   reducers: {
-    productEditState: (state,action:PayloadAction<boolean>) => {
+    productEditState: (state, action: PayloadAction<boolean>) => {
       state.productEdit = action.payload
     },
-    setEditProduct: (state,action:PayloadAction<ProductData | null>) => {
+    setEditProduct: (state, action: PayloadAction<ProductData | null>) => {
       state.editingProduct = action.payload
+    },
+    setProductLocation: (state, action: PayloadAction<boolean>) => {
+      state.productCardLocation = action.payload
     },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { productEditState,setEditProduct } = productSlice.actions
+export const { productEditState, setEditProduct, setProductLocation } = productSlice.actions
 
 export default productSlice.reducer

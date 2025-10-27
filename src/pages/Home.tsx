@@ -94,7 +94,8 @@ function Home() {
           </button>
         </div>
       </section>
-      <section id="product" className="w-full h-screen bg-amber-400 ">
+      <section id="product" className="w-full bg-blue-50 p-9">
+        <h1 className="font-bold">products</h1>
         <ProductList/>
       </section>
     </div>

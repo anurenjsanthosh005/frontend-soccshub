@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useState } from "react";
 import { deleteProducts, getProducts } from "../../api/productsApi";
 import { useLocation, useNavigate } from "react-router-dom";
 import Products from "./Products";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../app/store";
 import AddProductsComponent from "./AddProductsComponent";
-import { type RowComponentProps } from "react-window";
+import { setProductLocation } from "../../features/products/productSlice";
 
 type ProductImage = {
   id: number;
@@ -31,11 +31,11 @@ function ProductList() {
   const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
   const [products, setProducts] = useState<ProductData[]>([]);
-
+  
   const { productEdit } = useSelector((state: RootState) => state.productSlice);
   const isActiveHash = (hash: string) => location.hash === hash;
   const navigate = useNavigate();
-  
+  const dispatch = useDispatch();
 
   const fetchProducts = useCallback(async () => {
     try {
@@ -43,16 +43,15 @@ function ProductList() {
       const res = await getProducts();
       //   console.log("get products data :", res);
       setProducts(res);
-      console.log('products length :',res.length);
-      console.log('products  :',res);
-      
+      console.log("products length :", res.length);
+      console.log("products  :", res);
     } catch (err) {
       setIsLoading(false);
 
       //   console.log("get products error :", err);
     }
     setIsLoading(false);
-  },[]);
+  }, []);
 
   const onDelete = async (id: number) => {
     try {
@@ -65,7 +64,10 @@ function ProductList() {
 
   useEffect(() => {
     if (isActiveHash("#product")) {
-      navigate("#product");
+      dispatch(setProductLocation(true));
+      navigate("#addproduct");
+    } else {
+      dispatch(setProductLocation(false));
     }
 
     fetchProducts();
